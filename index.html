@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAT5-ARC-AGI: Next-Gen Pattern Reasoning Model</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --dark: #1a1a2e;
+            --darker: #16213e;
+            --light: #e3f2fd;
+            --text: #333;
+            --text-light: #666;
+            --success: #4caf50;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --glow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--dark);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Grid pattern overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(30px, 30px); }
+        }
+
+        /* Header */
+        header {
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            background: rgba(26, 26, 46, 0.9);
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #667eea, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: titleGlow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { filter: drop-shadow(0 0 10px rgba(102, 126, 234, 0.5)); }
+            to { filter: drop-shadow(0 0 20px rgba(240, 147, 251, 0.8)); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: #b3b3b3;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .badge {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .badge:hover {
+            background: rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+            box-shadow: var(--glow);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .card:hover::before {
+            height: 5px;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #f093fb;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-content {
+            color: #d0d0d0;
+            line-height: 1.7;
+        }
+
+        /* Architecture grid */
+        .arch-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .arch-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .arch-item::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(102, 126, 234, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .arch-item:hover::before {
+            opacity: 1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .arch-item:hover {
+            transform: scale(1.05);
+            background: rgba(102, 126, 234, 0.1);
+        }
+
+        .arch-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+            position: relative;
+            z-index: 1;
+        }
+
+        .arch-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .arch-desc {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Code blocks */
+        .code-block {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .code-block::before {
+            content: attr(data-lang);
+            position: absolute;
+            top: 0.5rem;
+            right: 1rem;
+            background: var(--gradient);
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            color: white;
+        }
+
+        /* Progress bars */
+        .progress-container {
+            margin: 2rem 0;
+        }
+
+        .progress-item {
+            margin: 1rem 0;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+            transition: width 2s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            margin: 0.5rem;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 2rem auto;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .timeline-content {
+            background: rgba(26, 26, 46, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 45%;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 15px;
+            height: 15px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 15px rgba(240, 147, 251, 0.5);
+        }
+
+        /* Stats grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(102, 126, 234, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.5rem; }
+            .hero-subtitle { font-size: 1.1rem; }
+            .container { padding: 0 1rem; }
+            .card { padding: 1.5rem; margin: 1rem 0; }
+            .arch-grid { grid-template-columns: 1fr; }
+            .timeline::before { left: 20px; }
+            .timeline-content { width: calc(100% - 60px); margin-left: 60px !important; }
+            .timeline-dot { left: 20px; }
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(102, 126, 234, 0.3);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(even) {
+            background: rgba(240, 147, 251, 0.3);
+            animation-duration: 8s;
+            animation-delay: -2s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-100vh) rotate(360deg); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    <div class="grid-overlay"></div>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="container">
+            <h1 class="hero-title">FAT5-ARC-AGI</h1>
+            <p class="hero-subtitle">
+                Revolutionary Flash Attention T5 model engineered for Abstract Reasoning Corpus competitions, 
+                featuring custom tokenization and ultra-long context capabilities for advanced pattern recognition.
+            </p>
+            <div class="hero-badges">
+                <div class="badge"><i class="fas fa-bolt"></i> Flash Attention v2</div>
+                <div class="badge"><i class="fas fa-brain"></i> 8K Context Length</div>
+                <div class="badge"><i class="fas fa-cube"></i> 2D Spatial Encoding</div>
+                <div class="badge"><i class="fas fa-rocket"></i> Custom Tokenizer</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Project Overview -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-lightbulb"></i>
+                Project Overview
+            </div>
+            <div class="card-content">
+                <p>
+                    We're developing a groundbreaking AI model that combines the efficiency of FAT5 (Flash Attention T5) 
+                    with specialized training for Abstract Reasoning Corpus (ARC-AGI) tasks. This model represents a significant 
+                    leap forward in pattern recognition and spatial reasoning capabilities.
+                </p>
+                <br>
+                <p>
+                    Our approach integrates custom tokenization strategies for grid-based data, advanced positional encoding 
+                    for 2D spatial relationships, and a novel UL2 training objective specifically designed for pattern completion tasks.
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="https://github.com/marc-research/arc-dataset-collection" class="btn" target="_blank">
+                        <i class="fas fa-database"></i> Dataset Repository
+                    </a>
+                    <a href="https://github.com/marc-research/flashT5" class="btn btn-secondary" target="_blank">
+                        <i class="fas fa-code"></i> FlashT5 Reference
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Innovations -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-star"></i>
+                Key Innovations
+            </div>
+            <div class="arch-grid">
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-zap"></i></div>
+                    <div class="arch-title">Flash Attention v2</div>
+                    <div class="arch-desc">Linear memory scaling with optimized CUDA kernels for 5-10x faster training</div>
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-th"></i></div>
+                    <div class="arch-title">Grid-Aware Tokenization</div>
+                    <div class="arch-desc">Custom vocabulary with spatial tokens for 2D pattern understanding</div>
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-sync-alt"></i></div>
+                    <div class="arch-title">UL2 Denoising</div>
+                    <div class="arch-desc">7 specialized denoising tasks for robust pattern learning</div>
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-expand-arrows-alt"></i></div>
+                    <div class="arch-title">Long Context</div>
+                    <div class="arch-desc">8K token sequences for complex multi-example reasoning</div>
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-palette"></i></div>
+                    <div class="arch-title">Color & Shape Tokens</div>
+                    <div class="arch-desc">Specialized tokens for ARC grid colors and geometric patterns</div>
+                </div>
+                <div class="arch-item">
+                    <div class="arch-icon"><i class="fas fa-microchip"></i></div>
+                    <div class="arch-title">Triton Kernels</div>
+                    <div class="arch-desc">Custom optimized kernels for cross-entropy and layer normalization</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Details -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-sitemap"></i>
+                Architecture Highlights
+            </div>
+            <div class="card-content">
+                <h3 style="color: var(--accent); margin-bottom: 1rem;">Custom Tokenizer Design</h3>
+                <div class="code-block" data-lang="Python">
+special_tokens = {
+    "GRID_START": "[GRID_START]",
+    "GRID_END": "[GRID_END]", 
+    "ROW_SEP": "[ROW_SEP]",
+    "INPUT": "[INPUT]",
+    "OUTPUT": "[OUTPUT]",
+    "PATTERN": "[PATTERN]",
+    "RULE": "[RULE]",
+    "SIZE_3x3": "[SIZE_3x3]"
+}
+
+vocab_size = 8192  # Optimized for ARC patterns
+                </div>
+
+                <h3 style="color: var(--accent); margin: 2rem 0 1rem;">Model Configuration</h3>
+                <div class="code-block" data-lang="Config">
+d_model: 512
+num_layers: 8 (encoder) + 8 (decoder)
+num_heads: 8
+max_length: 8192 tokens
+flash_attention: True
+relative_position_bias: True
+precision: BF16
+                </div>
+
+                <h3 style="color: var(--accent); margin: 2rem 0 1rem;">Training Objectives</h3>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <i class="fas fa-check-circle" style="position: absolute; left: 0; color: var(--success);"></i>
+                        Pattern completion with varying mask ratios
+                    </li>
+                    <li style="margin: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <i class="fas fa-check-circle" style="position: absolute; left: 0; color: var(--success);"></i>
+                        Grid reconstruction for spatial understanding
+                    </li>
+                    <li style="margin: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <i class="fas fa-check-circle" style="position: absolute; left: 0; color: var(--success);"></i>
+                        Rule inference for transformation learning
+                    </li>
+                    <li style="margin: 0.5rem 0; padding-left: 1.5rem; position: relative;">
+                        <i class="fas fa-check-circle" style="position: absolute; left: 0; color: var(--success);"></i>
+                        Multi-step reasoning chains
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Performance Metrics -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-chart-line"></i>
+                Expected Performance Improvements
+            </div>
+            <div class="progress-container">
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Training Speed vs Standard T5</span>
+                        <span>10x Faster</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 100%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Context Length Extension</span>
+                        <span>16x Longer (512 → 8192)</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 95%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>Memory Efficiency</span>
+                        <span>4x Better</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-label">
+                        <span>ARC-AGI Task Performance</span>
+                        <span>50% Improvement Expected</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Development Timeline -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-calendar-alt"></i>
+                Development Roadmap
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="color: var(--accent);">Phase 1: Foundation (Weeks 1-2)</h3>
+                        <p>Data preprocessing, custom tokenizer training, and ARC dataset integration</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="color: var(--accent);">Phase 2: Architecture (Weeks 3-4)</h3>
+                        <p>FAT5 model implementation with 2D positional encoding and flash attention integration</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="color: var(--accent);">Phase 3: Training (Weeks 5-8)</h3>
+                        <p>UL2 objective training with progressive context extension and optimization</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3 style="color: var(--accent);">Phase 4: Competition Ready (Weeks 9-12)</h3>
+                        <p>Fine-tuning, evaluation, and competition preparation with performance benchmarking</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Stats -->
+        <div class="card loading">
+            <div class="card-title">
+                <i class="fas fa-server"></i>
+                Technical Specifications
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">147M-1.3B</span>
+                    <span class="stat-label">Parameters</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">8,192</span>
+                    <span class="stat-label">Max Tokens</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">8,192</span>
+                    <span class="stat-label">Vocab Size</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">4-8</span>
+                    <span class="stat-label">A100 GPUs</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2-4</span>
+                    <span class="stat-label">Training Weeks</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">500K</span>
+                    <span class="stat-label">Training Steps</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="card loading" style="text-align: center; margin-bottom: 4rem;">
+            <div class="card-title">
+                <i class="fas fa-rocket"></i>
+                Ready to Revolutionize Pattern Recognition?
+            </div>
+            <div class="card-content">
+                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
+                    Join us in building the next generation of AI reasoning models. This project combines cutting-edge 
+                    research with practical competition performance to push the boundaries of what's possible in pattern recognition.
+                </p>
+                <a href="https://github.com/marc-research/arc-dataset-collection" class="btn" target="_blank">
+                    <i class="fas fa-star"></i> Star the Project
+                </a>
+                <a href="https://github.com/marc-research/flashT5" class="btn btn-secondary" target="_blank">
+                    <i class="fas fa-code-branch"></i> Contribute
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0s';
+                    entry.target.classList.add('loading');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                observer.observe(card);
+            });
+
+            // Animate progress bars on scroll
+            const progressBars = document.querySelectorAll('.progress-fill');
+            const progressObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const width = entry.target.style.width;
+                        entry.target.style.width = '0%';
+                        setTimeout(() => {
+                            entry.target.style.width = width;
+                        }, 200);
+                    }
+                });
+            }, observerOptions);
+
+            progressBars.forEach(bar => {
+                progressObserver.observe(bar);
+            });
+
+            // Create floating particles
+            createParticles();
+
+            // Add hover effects to architecture items
+            const archItems = document.querySelectorAll('.arch-item');
+            archItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    item.style.transform = 'scale(1.05) rotateY(5deg)';
+                });
+                item.addEventListener('mouseleave', () => {
+                    item.style.transform = 'scale(1) rotateY(0deg)';
+                });
+            });
+
+            // Add smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add typing effect to hero title
+            typeWriter();
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random size between 2-8px
+                const size = Math.random() * 6 + 2;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random horizontal position
+                particle.style.left = Math.random() * 100 + '%';
+                
+                // Random animation delay
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                
+                // Random animation duration
+                particle.style.animationDuration = (Math.random() * 4 + 6) + 's';
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Typing effect for hero title
+        function typeWriter() {
+            const title = document.querySelector('.hero-title');
+            const text = title.textContent;
+            title.textContent = '';
+            title.style.borderRight = '3px solid #667eea';
+            
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    title.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                } else {
+                    // Remove cursor after typing is complete
+                    setTimeout(() => {
+                        title.style.borderRight = 'none';
+                    }, 1000);
+                }
+            }
+            
+            // Start typing after a short delay
+            setTimeout(type, 500);
+        }
+
+        // Add parallax effect to background
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.bg-animation');
+            const speed = scrolled * 0.5;
+            
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Add glitch effect to title on hover
+        const heroTitle = document.querySelector('.hero-title');
+        heroTitle.addEventListener('mouseenter', () => {
+            heroTitle.style.animation = 'glitch 0.3s ease-in-out';
+        });
+
+        heroTitle.addEventListener('animationend', () => {
+            heroTitle.style.animation = 'titleGlow 2s ease-in-out infinite alternate';
+        });
+
+        // Add CSS for glitch effect
+        const glitchStyle = document.createElement('style');
+        glitchStyle.textContent = `
+            @keyframes glitch {
+                0% { transform: translate(0); }
+                20% { transform: translate(-2px, 2px); }
+                40% { transform: translate(-2px, -2px); }
+                60% { transform: translate(2px, 2px); }
+                80% { transform: translate(2px, -2px); }
+                100% { transform: translate(0); }
+            }
+        `;
+        document.head.appendChild(glitchStyle);
+
+        // Add interactive hover effects to cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = (y - centerY) / 10;
+                const rotateY = (centerX - x) / 10;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+            });
+        });
+
+        // Add countdown timer for project launch
+        function updateCountdown() {
+            const launchDate = new Date('2024-12-01T00:00:00Z').getTime();
+            const now = new Date().getTime();
+            const distance = launchDate - now;
+            
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                
+                // Update countdown display if element exists
+                const countdownElement = document.getElementById('countdown');
+                if (countdownElement) {
+                    countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m`;
+                }
+            }
+        }
+        
+        // Update countdown every minute
+        setInterval(updateCountdown, 60000);
+        updateCountdown();
+
+        // Add Easter egg - Konami code
+        let konamiCode = [];
+        const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65];
+        
+        document.addEventListener('keydown', (e) => {
+            konamiCode.push(e.keyCode);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                // Easter egg activated - add special effects
+                document.body.classList.add('konami-mode');
+                
+                // Create rainbow particles
+                for (let i = 0; i < 50; i++) {
+                    setTimeout(() => {
+                        createRainbowParticle();
+                    }, i * 100);
+                }
+                
+                // Reset after 5 seconds
+                setTimeout(() => {
+                    document.body.classList.remove('konami-mode');
+                }, 5000);
+            }
+        });
+
+        function createRainbowParticle() {
+            const particle = document.createElement('div');
+            const colors = ['#ff0000', '#ff8000', '#ffff00', '#80ff00', '#00ff00', '#00ff80', '#00ffff', '#0080ff', '#0000ff', '#8000ff', '#ff00ff', '#ff0080'];
+            
+            particle.style.position = 'fixed';
+            particle.style.width = '10px';
+            particle.style.height = '10px';
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.borderRadius = '50%';
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = window.innerHeight + 'px';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            particle.style.boxShadow = '0 0 10px currentColor';
+            
+            document.body.appendChild(particle);
+            
+            // Animate upward
+            particle.animate([
+                { transform: 'translateY(0px) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(-${window.innerHeight + 100}px) rotate(720deg)`, opacity: 0 }
+            ], {
+                duration: 3000,
+                easing: 'ease-out'
+            }).onfinish = () => {
+                particle.remove();
+            };
+        }
+
+        // Performance monitoring
+        if ('performance' in window && 'observe' in PerformanceObserver.prototype) {
+            const observer = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                    if (entry.entryType === 'paint' && entry.name === 'first-contentful-paint') {
+                        console.log(`First Contentful Paint: ${entry.startTime}ms`);
+                    }
+                }
+            });
+            observer.observe({ entryTypes: ['paint'] });
+        }
+
+        // Service worker registration for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Note: You would need to create a service-worker.js file
+                // navigator.serviceWorker.register('/service-worker.js');
+            });
+        }
+
+        // Add accessibility improvements
+        document.addEventListener('keydown', (e) => {
+            // Skip to main content on Tab key
+            if (e.key === 'Tab' && !e.shiftKey && document.activeElement === document.body) {
+                const mainContent = document.querySelector('.container');
+                if (mainContent) {
+                    mainContent.focus();
+                    e.preventDefault();
+                }
+            }
+        });
+
+        // Reduce motion for users who prefer it
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.documentElement.style.setProperty('--animation-duration', '0.01ms');
+            document.querySelectorAll('*').forEach(el => {
+                el.style.animationDuration = '0.01ms';
+                el.style.animationDelay = '0ms';
+                el.style.transitionDuration = '0.01ms';
+            });
+        }
+    </script>
+</body>
+</html>
